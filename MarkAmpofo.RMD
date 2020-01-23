@@ -1,0 +1,29 @@
+---
+title: "Differential Equations"
+author: "Mark O. Ampofo"
+date: "January 13, 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Simulations
+```{r}
+x = -10:20
+dX = 0.5*(1-(x/10))*x
+plot(x,dX)
+```
+##Equilibrium points
+```{r}
+
+for(x in 0:10){
+  dX = 0.5*(1-(x/10))*x
+  if(dX==0){
+   print(x) 
+  }
+}
+
+```
+

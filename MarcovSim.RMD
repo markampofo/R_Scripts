@@ -1,0 +1,70 @@
+---
+title: "Markov Chains"
+author: "Mark O. Ampofo"
+date: "January 13, 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## System A simulation
+
+```{r}
+# simulate discrete Markov chains according to transition matrix P
+Mk.sim <- function( P, num.iters = 150 ) {
+  
+  # number of possible states
+  num.states <- nrow(P)
+  
+  # stores the states X_t through time
+  states     <- numeric(num.iters)
+
+  # initialize variable for first state 
+  states[1]    <- 1
+
+  for(t in 2:num.iters) {
+    
+    # probability vector to simulate next state X_{t+1}
+    p  <- P[states[t-1], ]
+    
+    ## draw from multinomial and determine state
+    states[t] <-  which(rmultinom(1, 1, p) == 1)
+  }
+  return(states)
+}
+
+
+```
+
+```{r}
+# setup transition matrix 
+P <- t(matrix(c( 0.33, 0.33, 0.33, 
+                 0, 1,   0, 
+                   0.25,   0.25,   0.5  ), nrow=3, ncol=3))
+```
+
+
+```{r}
+num.chains     <- 5
+num.iterations <- 150
+
+# each column stores the sequence of states for a single chains
+chain.states  <- matrix(NA, ncol=num.chains, nrow=num.iterations)
+
+# simulate chains
+for(c in seq_len(num.chains)){
+  chain.states[,c] <- Mk.sim(P)
+}
+```
+
+
+```{r}
+matplot(chain.states, type='l', lty=1, col=1:5, ylim=c(0,4), ylab='state', xlab='time')
+abline(h=1, lty=3)
+abline(h=3, lty=3)
+```
+

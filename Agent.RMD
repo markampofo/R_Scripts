@@ -1,0 +1,48 @@
+---
+title: "Agent based"
+author: "Mark Ampofo"
+date: "January 14, 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+# initialize vectors to contain 5% and 95% mean levels
+Five.percX = vector("double",100)
+Five.percY = vector("double",100)
+Ninety5.percX = vector("double",100)
+Ninety5.percY = vector("double",100)
+for(t in 1:100){
+# x genetated normally with mean 10 and sd 3.5
+  x = rnorm(1000,10,3.5)
+# y is generated uniformly on [-1,1]
+  y = runif(1000,-1,1)
+  for(k in 1:1000){
+    if(y[k]>x[k]){
+    y = runif(1000,-1,1)
+    agent = cbind(x,y)
+  }
+  if(y[k]<x[k]){
+    agent = cbind(x/2,y)
+  }
+  # mean 5% level for x and y
+  Five.percX[t]=mean(agent[1:50,1])
+  Five.percY[t]=mean(agent[1:50,2])
+  # mean 95% level for x and y
+  Ninety5.percX[t] = mean(agent[951:100,1])
+  Ninety5.percY[t] = mean(agent[951:100,2])
+  }
+  
+}
+
+# plots for 5% and 95% mean level of x and y over time
+plot(Five.percX,Five.percY)
+plot(Ninety5.percX,Ninety5.percY)
+
+```
+

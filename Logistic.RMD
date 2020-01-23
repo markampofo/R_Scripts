@@ -1,0 +1,25 @@
+---
+title: "Logistic"
+author: "Mark Ampofo"
+date: "January 13, 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# At a rate of 3.6 the population of x reduces to zero.
+
+R.calc <- expression(r * x_n * (1-x_n))
+r <- 3.5
+x_n <- 0.9
+t <- seq(0,100,1)
+R <- eval(R.calc)
+geo.grow <- expression(R^t*x_n)
+pop.dyn <- eval(geo.grow)
+plot(t,pop.dyn,pch=20,col="blue",xlab="Time",ylab="Population Size")
+
+```
+
